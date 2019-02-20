@@ -1,0 +1,31 @@
+{
+  "name": "books_recommendation",
+  "version": "1.0.0",
+  "description": "Book Recommendation System",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamed951/Books_Recommendation_MERN_Project.git"
+  },
+  "author": "Mohamed Shawkat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohamed951/Books_Recommendation_MERN_Project/issues"
+  },
+  "homepage": "https://github.com/mohamed951/Books_Recommendation_MERN_Project#readme"
+}
