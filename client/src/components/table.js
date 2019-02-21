@@ -1,6 +1,8 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { FaEdit ,FaTrash } from 'react-icons/fa';
+import { Button } from 'reactstrap';
+import AddItemComp from './AddItem';
 export default class TableComp extends React.Component {
   state = {
 
@@ -20,6 +22,7 @@ export default class TableComp extends React.Component {
   }
 
   render() {
+    let i=0;
     return (
       <Table>
         <thead>
@@ -30,15 +33,15 @@ export default class TableComp extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {
-                           
+          {          
             this.props.rows.map((row)=>{
-              return  (  <tr key={row.id}>
-                        <th scope="row">{row.id}</th>
+              return  (  <tr key={row._id}>
+                        <th scope="row">   {++i}</th>
                         <td>{row.name}</td>
                         <td>
-                          <button><FaEdit /></button>
-                          <button onClick={()=>this.deleteItem(this.props.itemType+"/"+row.id)} ><FaTrash /></button>
+                          {/* <button><FaEdit /></button> */}
+                          <AddItemComp  id={row._id} operation="Edit" submitBt="Edit Category" addCat={this.addItemList} itemType="cat" title="Edit Category" />
+                          <Button className="float-right" onClick={()=>this.deleteItem(this.props.itemType+"/"+row._id)} ><FaTrash /></Button>
                         </td>
                       </tr>);
             })
