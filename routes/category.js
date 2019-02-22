@@ -48,7 +48,7 @@ categoryRouter.get('/',(req,res)=>{
 });
 
 categoryRouter.delete('/:id',(req,res)=>{
-    categoryModel.deleteOne({"id":req.params.id},(err, data) => {
+    categoryModel.deleteOne({"_id":req.params.id},(err, data) => {
         if (!err)
             res.json("Delete Successfully");
         else {

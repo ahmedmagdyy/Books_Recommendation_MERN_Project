@@ -28,7 +28,11 @@ export default class TableComp extends React.Component {
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
+            {
+              this.props.cols.map ((key,index)=>{
+                return (<th key={index}>{key}</th>)
+              })
+            }
             <th>Action</th>
           </tr>
         </thead>
@@ -37,10 +41,16 @@ export default class TableComp extends React.Component {
             this.props.rows.map((row)=>{
               return  (  <tr key={row._id}>
                         <th scope="row">   {++i}</th>
-                        <td>{row.name}</td>
+                        {
+                          Object.keys(row).map((key,index) => {
+                            if(!(key==="__v"|| key==="_id"|| key==="id"))
+                              return(<td key={index}>{row[key]}</td>)
+                            else return (null); 
+                          })
+                        }
                         <td>
                           {/* <button><FaEdit /></button> */}
-                          <AddItemComp  id={row._id} operation="Edit" submitBt="Edit Category" addCat={this.addItemList} itemType="cat" title="Edit Category" />
+                          <AddItemComp  id={row._id} operation="Edit" submitBt={"Edit "+this.props.tab} addCat={this.addItemList} itemType={this.props.itemType} title={"Edit "+this.props.tab} />
                           <Button className="float-right" onClick={()=>this.deleteItem(this.props.itemType+"/"+row._id)} ><FaTrash /></Button>
                         </td>
                       </tr>);

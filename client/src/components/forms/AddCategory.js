@@ -43,10 +43,10 @@ import categoryHOC from '../../HOC/categoryHoc';
     this.props.toggle();
   };
   componentDidMount(){
+    if(this.props.operation==="Edit"){
     const nameValue = this.props.categories.filter(item =>(item._id===this.props.id))[0].name;
     console.log(this.props.categories);
     console.log(this.props.id);
-    if(this.props.operation==="Edit"){
       this.setState({value:nameValue})
     }
   }

@@ -10,7 +10,8 @@ import {CategoryContext} from '../contexts/CategoryContext';
 class AdminPanel extends Component {
   state = {
       activeTab: '1',
-      categories : []
+      categories : [],
+      catCols : ["Name"]
     };
   
   addItemList=(newCat)=>{
@@ -19,7 +20,7 @@ class AdminPanel extends Component {
   }
   deleteItemList=(id)=>{
     console.log(id+"Delete List");
-    const newList = this.state.categories.filter( i => i.id !== parseInt(id) );
+    const newList = this.state.categories.filter( i => i._id !== id );
     this.setState(
       {categories: newList});
   }
@@ -82,7 +83,7 @@ class AdminPanel extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-              <TableComp  deleteItem={this.deleteItemList} itemType="cat" rows={this.state.categories} />
+              <TableComp  deleteItem={this.deleteItemList} itemType="cat" tab="Category" rows={this.state.categories} cols={this.state.catCols} />
               </Col>
             </Row>
           </TabPane>
