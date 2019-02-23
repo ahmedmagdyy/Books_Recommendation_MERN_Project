@@ -9,13 +9,7 @@ categoryRouter.use(cors());
 categoryRouter.use(bodyParser.json());
 
 categoryRouter.post('/',(req,res,next)=>{
-    // categoryModel.aggregate([
-    //     { $group: { _id: null, maxId: { $max: '$id' }}}
-    //   ]).
-    //   then(res =>  res[0].maxId).
-    //   then(maxId => {
             const newCat= new categoryModel({
-                // id : maxId+1,
                 name : req.body.name
             })
             newCat.save((err, data) => {
@@ -23,8 +17,6 @@ categoryRouter.post('/',(req,res,next)=>{
                     res.json(data);
                 else console("Error in insertion");
             })
-    //     }
-    //   ).catch(()=>res.json("Error In Insertion"));
 });
 
 

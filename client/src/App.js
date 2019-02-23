@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <Router>
         <AdminPanel path="/admin"></AdminPanel>
-    </Router>
+      </Router>
     );
   }
 }
