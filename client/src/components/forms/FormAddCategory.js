@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { Form, FormGroup, Input } from 'reactstrap';
-import categoryHOC from '../../HOC/categoryHoc';
+import AdminPanelHOC from '../../HOC/AdminPanelHoc';
 // import {ModalComp } from 'ModalComp';
  class FormAddCategory extends React.Component {
   state = {
@@ -64,4 +64,4 @@ import categoryHOC from '../../HOC/categoryHoc';
         )}
   }
 
-export default categoryHOC(FormAddCategory);
+export default AdminPanelHOC(FormAddCategory);

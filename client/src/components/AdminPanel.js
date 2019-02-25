@@ -12,12 +12,8 @@ const books=[{
     name : "BOOK A",
     category : "Cat A",
     author : "Authror A"}];
-const author=[{
-    _id:"1",
-    photo: "photo A",
-    firstName : "firstName A",
-    lastName : "lastName A",
-    dateOfBirth : "dateOfBirth A"}];
+
+    const base64Flag = 'data:image/jpeg;base64,';
 class AdminPanel extends Component {
   state = {
       activeTab: '1',
@@ -25,21 +21,23 @@ class AdminPanel extends Component {
       catCols : ["Name"],
       books : books,
       bookCols : ["Photo","Name","Category","Author"],
-      author : author,
+      authors : [],
       authorCols : ["Photo","firstName","lastName","dateOfBirth"],
     };
-  
-  addItemList=(newCat,type)=>{
-    console.log(newCat+"Add List");
+  addItemList=(newItem,type)=>{
+    if(newItem.photo){
+      newItem.photo = base64Flag + this.arrayBufferToBase64(newItem.photo.data.data)
+    }
+    console.log(newItem+"Add List");
     switch(type) {
       case "Category":
-        this.setState({categories: [...this.state.categories,newCat]});
+        this.setState({categories: [...this.state.categories,newItem]});
         break;
       case "Book":
-        this.setState({books: [...this.state.books,newCat]});
+        this.setState({books: [...this.state.books,newItem]});
         break;
       default:
-        this.setState({authors: [...this.state.books,newCat]});
+        this.setState({authors: [...this.state.authors,newItem]});
     }
     
   }
@@ -64,6 +62,7 @@ class AdminPanel extends Component {
   }
   editItemList=(editedItem,type)=>{
     console.log("list EDITED");
+    console.log(editedItem);
     let newList;
     switch(type) {
       case "Category":
@@ -75,13 +74,22 @@ class AdminPanel extends Component {
         this.setState({books: newList});
         break;
       default:
-        newList = this.state.authors.map(i=>(i._id===editedItem._id)?editedItem:i);
+        newList = this.state.authors.map(i=>{
+          console.log(i._id+"-------------"+editedItem._id);
+          if(i._id===editedItem._id){
+            if(editedItem.photo.data)
+              editedItem = base64Flag + this.arrayBufferToBase64(editedItem.photo.data.data);
+            else if(i.photo)
+              editedItem.photo = i.photo;
+            return editedItem;
+          }
+          return i;
+          });
         this.setState({authors: newList});
     }
     
   }
-   
-  componentWillMount(){
+   loadCat=()=>{
     fetch('http://localhost:5000/cat', {
       method: 'GET'
     }).then((response) => response.json())
@@ -91,6 +99,37 @@ class AdminPanel extends Component {
     }).catch((error) =>{
      console.log(error);
     });
+   }
+
+//    this.state = {
+//     img: ''
+// };
+// };
+  arrayBufferToBase64(buffer) {
+  var binary = '';
+  var bytes = [].slice.call(new Uint8Array(buffer));
+  bytes.forEach((b) => binary += String.fromCharCode(b));
+  return window.btoa(binary);
+  };
+
+  loadAuth=()=>{
+    fetch('http://localhost:5000/authors', {
+      method: 'GET'
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        data.map(item=>{
+          if(item.photo){
+            item.photo = base64Flag + this.arrayBufferToBase64(item.photo.data.data)
+          }
+        })
+        this.setState({authors:data})
+    })
+  }
+   ////////
+  componentWillMount(){
+    this.loadCat();
+    this.loadAuth();
   }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -102,7 +141,9 @@ class AdminPanel extends Component {
   render() {
     return (
       <CategoryContext.Provider  value={
-        {categories:this.state.categories ,
+        {
+          categories:this.state.categories ,
+          authors:this.state.authors,
           addItemList:this.addItemList ,
           deleteItemList:this.deleteItemList,
           editItemList:this.editItemList
@@ -141,7 +182,7 @@ class AdminPanel extends Component {
               <TableComp  deleteItem={this.deleteItemList} itemType="cat" tab="Category" rows={this.state.categories} cols={this.state.catCols} />
             </Col>
             <Col sm="1">
-             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Category" addCat={this.addItemList} itemType="cat" title="Add Category" />
+             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Category" itemType="cat" title="Add Category" />
             </Col>
             </Row>
           </TabPane>
@@ -151,17 +192,17 @@ class AdminPanel extends Component {
                 <TableComp  deleteItem={this.deleteItemList} itemType="books" tab="Book" rows={this.state.books} cols={this.state.bookCols} />
               </Col>
               <Col sm="1">
-             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Book" addCat={this.addItemList} itemType="book" title="Add Book" />
+             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Book" itemType="book" title="Add Book" />
             </Col>
             </Row>
           </TabPane>
         <TabPane tabId="3">
             <Row>
               <Col sm="11">
-                <TableComp  deleteItem={this.deleteItemList} itemType="books" tab="Book" rows={this.state.author} cols={this.state.authorCols} />
+                <TableComp   deleteItem={this.deleteItemList} itemType="authors" tab="Author" rows={this.state.authors} cols={this.state.authorCols} />
               </Col>
               <Col sm="1">
-             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Author" addCat={this.addItemList} itemType="author" title="Add Author" />
+             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Author"  itemType="authors" title="Add Author" />
             </Col>
             </Row>
           </TabPane>

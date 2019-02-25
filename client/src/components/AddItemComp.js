@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
 import FormAddCategory from './forms/FormAddCategory'
 import FormAddBook from './forms/FormAddBook'
+import FormAddAuthor from './forms/FormAddAuthor'
 // import {ModalComp } from 'ModalComp';
 export default class AddItemComp extends React.Component {
   state = {
@@ -20,11 +21,12 @@ export default class AddItemComp extends React.Component {
 
   render() {
     let form;
-    if(this.props.itemType == "cat"){
+    const itemType = this.props.itemType ;
+    if(itemType== "cat"){
       form = <FormAddCategory id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
     }
-    else form = <FormAddBook id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
-
+    else if(itemType =="book") form = <FormAddBook id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
+    else form = <FormAddAuthor id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
     return (
       <div>
         <Button  className="float-right" id={this.props.id} color={this.props.buttonColor} onClick={this.toggle}>

@@ -1,16 +1,17 @@
 import React from 'react';
 import {CategoryContext} from '../contexts/CategoryContext';
 
-const categoryHOC = (Component) => {
+const AdminPanelHOC = (Component) => {
    return (props) => (
        <CategoryContext.Consumer>
             {({categories ,
+            authors,
           addItemList,
           deleteItemList,editItemList}) => {
-               return <Component {...props} deleteItemList={deleteItemList}
+               return <Component {...props} authors={authors} deleteItemList={deleteItemList}
                categories={categories} addItemList={addItemList}  editItemList={editItemList}/>
             }}
        </CategoryContext.Consumer>
    )
 }
-export default categoryHOC;
+export default AdminPanelHOC;

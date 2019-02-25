@@ -23,6 +23,16 @@ export default class TableComp extends React.Component {
 
   render() {
     let i=0;
+    let rows =this.props.rows ;
+    const keys = ["__v"];//,"description"
+    rows = rows.map(item => {
+      keys.map(key=>{
+        if(item[key]||item[key]===0)
+          delete item[key];
+        return key;  
+      })
+      return item;
+    })
     return (
       <Table>
         <thead>
@@ -38,13 +48,17 @@ export default class TableComp extends React.Component {
         </thead>
         <tbody>
           {          
-            this.props.rows.map((row)=>{
+            rows.map((row)=>{
               return  (  <tr key={row._id}>
                         <th scope="row">   {++i}</th>
                         {
                           Object.keys(row).map((key,index) => {
-                            if(!(key==="__v"|| key==="_id"|| key==="id"))
-                              return(<td key={index}>{row[key]}</td>)
+                            if( key!=="_id"&&key!=="description"){
+                              if(key=="photo"){
+                                return(<td key={index}><img style={{width:60,height:60}} src={row[key]}></img></td>)
+                              }
+                              else return(<td key={index}>{row[key]}</td>)
+                            }
                             else return (null); 
                           })
                         }

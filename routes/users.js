@@ -7,9 +7,9 @@ const _ = require('lodash');
 //retrieving users
 router.get('/', (req , res , next) => {
     User.find().then(users =>{
-        res.send(users);
+        res.json(users);
     }).catch(err => {
-        res.send('errooooor');
+        res.json('errooooor');
     }); 
 });
 
@@ -25,10 +25,10 @@ router.post('/', (req , res , next) => {
     });
     userData.save( (err) =>{
         if(!err){ 
-        res.send('saved');
+        res.json('saved');
     }
     else{
-        res.send(err)
+        res.json(err)
     }
     });  
 });
@@ -36,7 +36,7 @@ router.post('/', (req , res , next) => {
 router.get('/me' , (req , res) => {
     var token = req.header('x-auth');
     User.findByToken(token).then((user) => {
-        res.send(user);
+        res.json(user);
     });
 });
 
@@ -48,7 +48,7 @@ router.post('/login' , function(req ,res){
           res.header('x-auth', token).send(user);
         });
       }).catch((e) => {
-        res.status(400).send();
+        res.status(400).json();
       });
 
     // user.save().then(() => {

@@ -1,16 +1,22 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import { Form, FormGroup, Input ,Label} from 'reactstrap';
-import categoryHOC from '../../HOC/categoryHoc';
+import AdminPanelHOC from '../../HOC/AdminPanelHoc';
 // import {ModalComp } from 'ModalComp';
- class FormAddCategory extends React.Component {
+ class FormAddBook extends React.Component {
   state = {
       bookName: '',
       categorySelect: 'Category',
-      categoryList : ["Economic","Sport","Drama"],
+      categoryList : [],  //"Economic","Sport","Drama"
       authorSelect: 'Author A',
-      authorList : ["Author A","Author B","Author C"]
+      authorList : ["Author A","Author B","Author C"],
+      photo : '',
+      
     };
+
+  handlePhotoChange(e) {
+      this.setState({photo:e.target.files[0]});
+  }
   handleBookNameChange = (event)=>{
         this.setState({bookName:event.target.value});
       }
@@ -20,21 +26,36 @@ import categoryHOC from '../../HOC/categoryHoc';
   handeAuthorChange = (event)=>{
         this.setState({authorSelect:event.target.value});
       }
-  addSubmitForm = (e)=> {
-    e.preventDefault();
-    fetch('http://localhost:5000/cat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-       body:  JSON.stringify({
-        bookName: this.state.bookName
-       })
-    }).then((res) => res.json())
-    .then((data) =>  this.props.addItemList(data,"Category"))
-    .catch((err)=>console.log(err));
-    this.props.toggle();
-    };
+  // addSubmitForm = (e)=> {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append('bookName',this.state.bookName);
+  //   formData.append('category',this.state.categorySelect);
+  //   formData.append('author',this.state.authorSelect);
+  //   formData.append('photo',this.state.file);
+    
+  //   // const config = {
+  //   //     headers: {
+  //   //         'content-type': 'multipart/form-data'
+  //   //     }
+  //   // };
+  //   // axios.post("/upload",formData,config)
+  //   //     .then((response) => {
+  //   //         alert("The file is successfully uploaded");
+  //   //     }).catch((error) => {
+  //   // });
+  //   fetch('http://localhost:5000/book',formData, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     },
+  //      body:  formData
+  //   }).then((res) => res.json())
+  //   .then((data) =>  console.log(res.json()))
+  //   .catch((err)=>console.log(err));
+  //   this.props.toggle();
+  //   };
+  
   editSubmitForm = (e)=> {
         e.preventDefault();
         fetch('http://localhost:5000/cat', {
@@ -51,20 +72,17 @@ import categoryHOC from '../../HOC/categoryHoc';
         .catch((err)=>console.log(err));
         this.props.toggle();
     };
-//   loadCategory = ()=> {
-//     fetch('http://localhost:5000/cat/list', {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     }).then((res) => res.json())
-//     .then((data) =>  {
-        
 
-//     })
-//     .catch((err)=>console.log(err));
-// }
   componentWillMount(){
+    let catArr = this.props.categories.map(item=>item.name);
+    this.setState({
+      categoryList: catArr
+    });
+    console.log("HELLO");
+    console.log(this.props.catArr);
+    console.log(this.props.categories);
+    console.log(this.state.categoryList);
+    
     if(this.props.operation==="Edit"){
         const nameValue = this.props.categories.filter(item =>(item._id===this.props.id))[0].name;
         console.log(this.props.categories);
@@ -101,10 +119,7 @@ import categoryHOC from '../../HOC/categoryHoc';
                     </FormGroup>
                     <FormGroup>
                     <Label for="exampleFile">Photo</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    </FormGroup>
-                    <FormGroup>
-                    <Input type="text" onChange={this.handleValueChange} value={this.state.value} />
+                    <Input type="file" name="file" name="myImage" onChange={this.handlePhotoChange} />
                     </FormGroup>
                     <FormGroup>
                     <Button color="primary">{this.props.operation} Book</Button>
@@ -114,4 +129,4 @@ import categoryHOC from '../../HOC/categoryHoc';
         )}
   }
 
-export default categoryHOC(FormAddCategory);
+export default AdminPanelHOC(FormAddBook);

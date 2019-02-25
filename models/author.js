@@ -10,10 +10,7 @@ const authorSchema = new mongoose.Schema({
     description:{
         type: String,
     },
-    photo:{ 
-        type: String,
-        data: Buffer
-    },
+    photo: { data: Buffer, contentType: String },
     birth_date:{ 
         type: Date,  
     }
