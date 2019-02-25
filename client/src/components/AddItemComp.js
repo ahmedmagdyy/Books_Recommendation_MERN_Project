@@ -25,7 +25,7 @@ export default class AddItemComp extends React.Component {
     if(itemType== "cat"){
       form = <FormAddCategory id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
     }
-    else if(itemType =="book") form = <FormAddBook id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
+    else if(itemType =="books") form = <FormAddBook id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
     else form = <FormAddAuthor id={this.props.id} operation={this.props.operation} toggle={this.toggle}/>
     return (
       <div>
