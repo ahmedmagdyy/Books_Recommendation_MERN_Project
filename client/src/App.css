@@ -31,3 +31,14 @@
     transform: rotate(360deg);
   }
 }
+.book-container {
+  width: 23%;
+  margin: 20px 20px;
+  position: relative;
+  float: left;
+}
+
+.cards_container {
+  margin-top: 6%;
+  text-align: center;
+}

@@ -1,0 +1,422 @@
+.body{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.App {
+  display: flex;
+  color: #3a4660;
+  height: 100vh;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.up {
+  margin-top: 50px
+}
+
+.tabs {
+  cursor: pointer;
+}
+
+
+#page-numbers {
+  list-style: none;
+  display: flex;
+}
+
+#page-numbers > li {
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Declare some variables */
+/* Define Styles */
+.current-page {
+  font-size: 1.5rem;
+  vertical-align: middle; 
+  line-height: 1; 
+}
+
+/* Override some Bootstrap pagination styles */
+ul.pagination {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
+  ul.pagination li.page-item.active a.page-link {
+    color: #445565 !important;
+    background-color: #e3e7eb !important;
+    border-color: #ced4da !important; }
+  ul.pagination a.page-link {
+    padding: 0.75rem 1rem;
+    min-width: 3.5rem;
+    text-align: center;
+    box-shadow: none !important;
+    border-color: #ced4da !important;
+    color: #d3d6da;
+    font-weight: 900;
+    font-size: 1rem; 
+  }
+
+  ul.pagination a.page-link:hover {
+    background-color: #f4f4f4; 
+   }
+
+
+   .container-fluid{
+    height: inherit;
+    overflow: hidden;
+  }
+
+   .col-md-7 {
+    background-color: #c9af98;
+  }
+  
+  .col-md-5 {
+    background-color: #3a4660;
+    padding: 25px 40px;
+    overflow: hidden;
+  }
+  
+  .switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10%;
+  }
+  
+  .switcherItem {
+    background-color: #3a4660;
+    color: #9DA6B1;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: .9em;
+    border: none;
+    outline: none;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .switch--Active {
+    background-color: #c9af98;
+    color: white;
+  }
+  
+  .switcherItem:first-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  .switcherItem:last-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  
+  .switch_title {
+    color: #707C8B;
+    font-weight: 300;
+    margin-bottom: 50px;
+  }
+  
+  .switch_title_item {
+    color: #707C8B;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.7em;
+    margin: 0 10px;
+    padding-bottom: 5px;
+  }
+  
+  .switch_title_item:first-child {
+    margin-left: 0;
+  }
+  
+  .switch_title--Active {
+    color: white;
+    border-bottom: 1px solid #c9af98;
+  }
+  
+  /* .FormCenter {
+    margin-bottom: 100px;
+    transition: 0.6s ease;
+  } */
+  
+  .Field {
+    margin-bottom: 2.5%;
+  }
+  
+  .Label {
+    display: block;
+    text-transform: uppercase;
+    font-size: .9em;
+    color: white;
+  }
+  .Input {
+    width: 85%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    border-bottom: 1px solid #445366;
+    font-size: 1em;
+    font-weight: 300;
+    padding-bottom: 1%;
+    margin-top: 1%;
+  }
+  
+  .Input::placeholder {
+    color: #616E7F;
+  }
+  
+  .fieldButton {
+    background-color: #c9af98;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    padding: 15px 70px;
+    font-size: .8em;
+    font-weight: 500;
+    transition: 0.6s ease;
+  
+  }
+  
+  .link {
+    color: rgb(161, 186, 218);
+    text-decoration: none;
+    display: inline-block;
+    border-bottom: 1.5px solid #c9af98;
+    padding-bottom: 5px;
+    margin-left: 8px;
+  }
+  .typeAnime{
+    font-size: 400%;
+    text-align: center;
+    margin: 8%;
+    text-shadow: 2px 2px 8px #707C8B;
+  
+  }
+  
+  .LeftSide{
+    padding: 1%;
+  }
+  
+  
+  .menu {
+    font-family: sans-serif;
+    background-color: #3a4660;
+    color: #3a4660;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .menu-item {
+    border-bottom: 1px solid #ddd;
+    background-color: #3a4660;
+    height: 100%;
+  }
+  
+  .menu-item a {
+    display: block;
+    padding-left: 15%;
+    padding-top: 20%;
+    color: #c9af98;
+    text-decoration: none;
+    font-size: 200%;
+  }
+  
+  .menu-item a:hover {
+    color: #707C8B;
+    text-decoration-color: #707C8B;
+    /* background-color: #c9af98; */
+  }
+  
+  .menu-item a:focus {
+    text-decoration-color: #3a4660;
+    /* text-decoration: none; */
+  }
+  
+  .menu-item a:visited {
+    /* color: #c9af98; */
+    text-decoration-color: #3a4660;
+  }
+  
+  .active-menu-item {
+    background-color: #3a4660;
+  }
+  
+  .hint {
+    padding: .5rem 15px;
+  }
+  
+  .rated{
+    padding-left: 10%;
+    padding-top: 10%;
+  }
+  .rated {
+    max-width: 100%;
+    /* position: relative; */
+    margin: auto;
+    /* text-align: center; */
+  }
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 1%;
+    /* margin-top: -22px; */
+    color: white;
+    font-weight: bold;
+    font-size: 100%;
+    transition: 0.6s ease; 
+    background-color: #3a4660;
+    border: none ;
+    user-select: none;
+  }
+  .next {
+    right: 51%;
+  }
+  .prev {
+    left: 1%;
+  }
+  .prev:hover, .next:hover {
+    background-color: #c9af98;
+  }
+  .bookslide{
+    padding-left: 15%;
+  }
+  
+  .title{
+    text-transform: uppercase;
+    font-size: 300%;
+    padding-left: 18%;
+  }
+  
+  .bookName{
+    font-size: 200%;
+    color: #3a4660;
+  }
+  .authorName{
+    font-size: 140%;
+    color: #e4e9f0;
+  }
+ 
+  .Book_container{
+    margin-top: 6%;
+    height: -webkit-fill-available;
+    border-radius: 20px;
+    border-style: groove;
+    border: 1px
+  }
+.Book_Img_Card{
+  width: 90%;
+}
+/*
+.Book_Card_Rate{
+  display: inline;
+  
+} */
+.book-description{
+  padding-left: 2%;
+  overflow: hidden;
+}
+
+.Card{
+  /* width: 20%; */
+  float: left;
+}
+/* @media only screen and (max-width: 600px) {
+  .Card{
+    width: 95%;
+  }
+<<<<<<< HEAD
+} */
+
+
+  .card-container {
+    height: 100px;
+    width: 23%;
+    margin: auto 20px;
+    position: relative;
+    float: left;
+    overflow: hidden;
+   
+  }
+
+  .book-card-container {
+    width: 23%;
+    margin: 20px 20px;
+    position: relative;
+    float: left;
+  }
+
+  .cards_container{
+    margin-top: 6%;
+    text-align: center
+  }
+
+
+
+  /* Author page */ 
+
+ .Author-page{
+   margin-top: 10% ;
+
+ }
+ .auth-info{
+   padding-top: 4%
+ }
+
+.glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+small {
+display: block;
+line-height: 1.428571429;
+color: #999;
+}
+  .tab-content{
+    margin-left: 3%;
+    margin-right: 3%;
+    
+  }
+
+  .up{
+    margin-top: 0px;
+    padding: 50px;
+  }
+  .errorMsg {
+    color: #cc0000;
+    margin-bottom: 12px;
+  }
+  .carousel-inner{
+    padding: 5%;
+  }
