@@ -71,21 +71,17 @@ import AdminPanelHOC from '../../HOC/AdminPanelHoc';
       };
     formatDate=(date)=> {
       date = date.substring(0,10);
-      var d = new Date(date),
+      let d = new Date(date),
           month = '' + (d.getMonth() + 1),
           day = '' + d.getDate(),
           year = d.getFullYear();
-  
       if (month.length < 2) month = '0' + month;
       if (day.length < 2) day = '0' + day;
-      const ret = [year, month, day].join('-');
-      console.log(ret);
-      return ret;
-  }
+      return [year, month, day].join('-');
+     }
     componentDidMount(){
       if(this.props.operation==="Edit"){
       const author = this.props.authors.filter(item =>(item._id===this.props.id))[0];
-      console.log(author);
         this.setState({
           first_name: author.first_name,
           last_name:author.last_name,
@@ -106,12 +102,12 @@ import AdminPanelHOC from '../../HOC/AdminPanelHoc';
                     <Input type="text" name="last_name" onChange={this.handleLnameChange} value={this.state.last_name} />
                     </FormGroup>
                     <FormGroup>
-                    <Label >descriptionription</Label>
+                    <Label >description</Label>
                     <Input type="textarea" name="description" onChange={this.handledescriptionChange} value={this.state.description} />
                     </FormGroup>
                     <FormGroup>
                     <Label >Date of Birth</Label>
-                    <Input type="date" name="dateOfBirth" onChange={this.handleDateOfBirth} value={this.state.dateOfBirth} />
+                    <Input type="date" name="birth_date" onChange={this.handleDateOfBirth} value={this.state.dateOfBirth} />
                     </FormGroup>            
                     <FormGroup>
                     <Label>Photo</Label>

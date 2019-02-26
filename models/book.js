@@ -8,15 +8,15 @@ const bookSchema = new mongoose.Schema({
     description:{
         type: String,
     },
-    photo:{ 
-        type: String,
-        data: Buffer
-    },
+    photo: { 
+        data: Buffer, 
+        contentType: String
+     },
     author_id:[{
         type:mongoose.Schema.Types.ObjectId,ref:'Author',autopopulate: true
     }],
     category_id:[{
-        type:mongoose.Schema.Types.ObjectId,ref:'Category',autopopulate: true
+        type:mongoose.Schema.Types.ObjectId,ref:'categories',autopopulate: true
     }],
     rate:{
         type: Number

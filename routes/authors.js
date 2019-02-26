@@ -24,8 +24,10 @@ authorRouter.post('/', upload.single('photo'), function(req, res) {
     AuthorObj.last_name = req.body.last_name;
     AuthorObj.description = req.body.description;
     AuthorObj.birth_date = req.body.birth_date;
-    AuthorObj.photo.data = fs.readFileSync(req.file.path);
-    AuthorObj.photo.type = 'image/jpeg';  // or 'image/png'
+    if(req.file.path){
+        AuthorObj.photo.data = fs.readFileSync(req.file.path);
+        AuthorObj.photo.type = 'image/jpeg';  // or 'image/png'
+    }else AuthorObj.photo={}
     AuthorObj.save((err, data) => {
         if (!err)
             res.json(data);
@@ -47,19 +49,23 @@ authorRouter.get('/', (req , res , next) => {
 authorRouter.put('/', upload.single('photo'), (req , res , next) => {
     console.log(req.body);
     const editedAuthor = {
-        "photo" : {},
         "first_name": req.body.first_name , 
         "last_name" : req.body.last_name , 
         "description" : req.body.description , 
         "birth_date" : req.body.birth_date
     }
     if(req.file){
+        editedAuthor.photo ={}
         editedAuthor.photo.data = fs.readFileSync(req.file.path);
         editedAuthor.photo.type = 'image/jpeg';  
     }
     console.log(editedAuthor);
     Author.updateOne({ _id: req.body._id }, { $set: editedAuthor }) 
-    .then((data)=>{editedAuthor._id=req.body._id;res.json(editedAuthor);})
+    .then((data)=>{
+        Author.find({ _id: req.body._id}).then((data)=>{
+            res.json(data[0])
+        })
+    })
     .catch(error=>{res.json(error)});     
     
 });

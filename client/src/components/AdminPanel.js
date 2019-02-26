@@ -5,29 +5,26 @@ import TableComp from './TableComp';
 import AddItemComp from './AddItemComp';
 import {CategoryContext} from '../contexts/CategoryContext';
 
-const books=[{
-    _id:"1",
-    photo: "photo A",
-    name : "BOOK A",
-    category : "Cat A",
-    author : "Authror A"}];
 
-    const base64Flag = 'data:image/jpeg;base64,';
+
+
+const base64Flag = 'data:image/jpeg;base64,';
 class AdminPanel extends Component {
   state = {
       activeTab: '1',
       categories : [],
-      catCols : ["Name"],
-      books : books,
-      bookCols : ["Photo","Name","Category","Author"],
+      catCols : ["name"],
+      books : [],
+      bookCols : ["photo","name","author_name","category_name"],
       authors : [],
-      authorCols : ["Photo","firstName","lastName","dateOfBirth"],
+      authorCols : ["photo","first_name","last_name","birth_date"],
     };
   addItemList=(newItem,type)=>{
     if(newItem.photo){
       newItem.photo = base64Flag + this.arrayBufferToBase64(newItem.photo.data.data)
     }
-    console.log(newItem+"Add List");
+    console.log("Add List")
+    console.log(newItem);
     switch(type) {
       case "Category":
         this.setState({categories: [...this.state.categories,newItem]});
@@ -67,15 +64,24 @@ class AdminPanel extends Component {
         this.setState({categories: newList});
         break;
       case "Book":
-        newList = this.state.books.map(i=>(i._id===editedItem._id)?editedItem:i);
+        newList = this.state.books.map(i=>{
+          if(i._id===editedItem._id){
+            if(editedItem.photo.data)
+              editedItem.photo = base64Flag + this.arrayBufferToBase64(editedItem.photo.data.data);
+            else if(i.photo)
+              editedItem.photo = i.photo;
+            return editedItem;
+          }
+          return i;
+          });
         this.setState({books: newList});
         break;
       default:
         newList = this.state.authors.map(i=>{
-          console.log(i._id+"-------------"+editedItem._id);
+          // console.log(i._id+"-------------"+editedItem._id);
           if(i._id===editedItem._id){
             if(editedItem.photo.data)
-              editedItem = base64Flag + this.arrayBufferToBase64(editedItem.photo.data.data);
+              editedItem.photo = base64Flag + this.arrayBufferToBase64(editedItem.photo.data.data);
             else if(i.photo)
               editedItem.photo = i.photo;
             return editedItem;
@@ -123,9 +129,29 @@ class AdminPanel extends Component {
     })
   }
    ////////
+
+   
+   loadBook=()=>{
+    fetch('http://localhost:5000/books', {
+      method: 'GET'
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        data.map(item=>{
+          if(item.photo){
+            item.photo = base64Flag + this.arrayBufferToBase64(item.photo.data.data)
+          }
+        })
+        console.log("BOOK STATE NOW")
+        console.log(data);
+        this.setState({books:data})
+
+    })
+  }
   componentWillMount(){
     this.loadCat();
     this.loadAuth();
+    this.loadBook();
   }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -140,6 +166,7 @@ class AdminPanel extends Component {
         {
           categories:this.state.categories ,
           authors:this.state.authors,
+          books:this.state.books,
           addItemList:this.addItemList ,
           deleteItemList:this.deleteItemList,
           editItemList:this.editItemList
@@ -188,7 +215,7 @@ class AdminPanel extends Component {
                 <TableComp  deleteItem={this.deleteItemList} itemType="books" tab="Book" rows={this.state.books} cols={this.state.bookCols} />
               </Col>
               <Col sm="1">
-             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Book" itemType="book" title="Add Book" />
+             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Book" itemType="books" title="Add Book" />
             </Col>
             </Row>
           </TabPane>
