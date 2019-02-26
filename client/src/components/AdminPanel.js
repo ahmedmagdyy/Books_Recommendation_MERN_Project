@@ -4,8 +4,12 @@ import classnames from 'classnames';
 import TableComp from './TableComp';
 import AddItemComp from './AddItemComp';
 import {CategoryContext} from '../contexts/CategoryContext';
-
-
+import FormLogin from './forms/FormLogin';
+import {currentUser} from '../userInfo';
+import jwt_decode from "jwt-decode";
+import {setCurrentUser,emptyCurrentUser} from '../userInfo';
+import { navigate } from "@reach/router"
+import { decode } from 'punycode';
 const base64Flag = 'data:image/jpeg;base64,';
 class AdminPanel extends Component {
   state = {
@@ -102,10 +106,6 @@ class AdminPanel extends Component {
     });
    }
 
-//    this.state = {
-//     img: ''
-// };
-// };
   arrayBufferToBase64(buffer) {
   var binary = '';
   var bytes = [].slice.call(new Uint8Array(buffer));
@@ -127,9 +127,7 @@ class AdminPanel extends Component {
         this.setState({authors:data})
     })
   }
-   ////////
-
-   
+  
    loadBook=()=>{
     fetch('http://localhost:5000/books', {
       method: 'GET'
@@ -148,9 +146,21 @@ class AdminPanel extends Component {
     })
   }
   componentWillMount(){
+    const token = localStorage.getItem("jwttoken");
+    console.log(token);
+    if(token){
+      const decoded = jwt_decode(token);
+      setCurrentUser(decoded,true);
+      console.log(decoded);
+    }
     this.loadCat();
     this.loadAuth();
     this.loadBook();
+  }
+  signOut=()=>{
+    localStorage.removeItem("jwttoken");
+    emptyCurrentUser();
+    navigate("/admin")
   }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -161,6 +171,8 @@ class AdminPanel extends Component {
   }
   render() {
     return (
+      (!currentUser.authenticated && !currentUser.userData.isAdmin)?<FormLogin />:
+
       <CategoryContext.Provider  value={
         {
           categories:this.state.categories ,
@@ -171,6 +183,7 @@ class AdminPanel extends Component {
           editItemList:this.editItemList
         }
           } >
+        <button onClick={this.signOut}>Log Out</button>
         <Nav tabs>
           <NavItem>
             <NavLink

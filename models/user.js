@@ -56,14 +56,14 @@ userSchema.statics.findByCredentials = function (email, password) {
         if (!user) {
             return Promise.reject();
         }
-
         return new Promise((resolve, reject) => {
             // Use bcrypt.compare to compare password and user.password
-            console.log(password + "/" + user.password);
-            if (password === user.password)
+            if (user.validPassword(password)){
+                console.log("HKLL:JK")
                 resolve(user);
+            }
             else {
-                reject();
+                reject("error");
             }
         });
     });
@@ -75,16 +75,7 @@ userSchema.statics.findByCredentials = function (email, password) {
 //     var userObject = user.toObject();
 //     return _.pick(userObject , ['_id' , 'email']);
 // }
-userSchema.methods.generateAuthToken = function () {
-    var user = this;
-    var access = 'auth';
-    var token = jwt.sign({ _id: user._id.toHexString(), access }, 'secret_key').toString();
 
-    user.tokens.push({ access, token });
-    return user.save().then(() => {
-        return token;
-    });
-}
 
 userSchema.statics.findByToken = function (token) {
     var User = this;
@@ -99,7 +90,7 @@ userSchema.statics.findByToken = function (token) {
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
-userSchema.validPassword = function (password) {
+userSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 }
 

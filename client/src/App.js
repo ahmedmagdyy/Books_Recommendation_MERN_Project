@@ -5,11 +5,10 @@ import AdminPanel from './components/AdminPanel';
 
 
 class App extends Component {
- 
   render() {
     return (
       <Router>
-        <AdminPanel path="/admin"></AdminPanel>
+        <AdminPanel path="/admin"></AdminPanel>     
       </Router>
     );
   }

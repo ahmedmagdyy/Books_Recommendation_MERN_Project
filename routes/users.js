@@ -1,11 +1,16 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const router = express.Router();
+const userRouter = express.Router();
 const User = require('../models/user');
 const _ = require('lodash');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+userRouter.use(cors());
+userRouter.use(bodyParser.json());
 
 //retrieving users
-router.get('/', (req , res , next) => {
+userRouter.get('/', (req , res , next) => {
     User.find().then(users =>{
         res.json(users);
     }).catch(err => {
@@ -14,15 +19,17 @@ router.get('/', (req , res , next) => {
 });
 
 //adding new user
-router.post('/', (req , res , next) => {
+userRouter.post('/', (req , res , next) => {
     const userData = new User({
         first_name : req.body.first_name,
         last_name : req.body.last_name,
         user_name : req.body.user_name,
         email : req.body.email,
         password : req.body.password,
-        photo : req.body.photo
+        photo : req.body.photo,
+        isAdmin: req.body.isAdmin || false
     });
+    userData.password = userData.generateHash(userData.password);
     userData.save( (err) =>{
         if(!err){ 
         res.json('saved');
@@ -33,36 +40,33 @@ router.post('/', (req , res , next) => {
     });  
 });
 
-router.get('/me' , (req , res) => {
+userRouter.get('/me' , (req , res) => {
     var token = req.header('x-auth');
     User.findByToken(token).then((user) => {
         res.json(user);
     });
 });
 
-router.post('/login' , function(req ,res){
+userRouter.post('/login' , function(req ,res){
+    console.log("Path/login")
+    console.log(req.body);
     const body = _.pick(req.body,['email', 'password']);
-        
     User.findByCredentials(body.email,body.password).then((user) => {
-        return user.generateAuthToken().then((token) => {
-          res.header('x-auth', token).send(user);
-        });
-      }).catch((e) => {
-        res.status(400).json();
+        console.log(user);
+          jwt.sign(user.toJSON(), 'secret_key',(error,token)=>{
+              console.log(error);
+              console.log(token);
+              if(!error){
+                  console.log("Sent Successfull Login")
+                 user.a = token;
+                 console.log(user);
+                res.json({ token,user });
+              }
+              else res.status(404).send();        
+          })       
+        }).catch((e) => {
+        res.status(404).send();
       });
-
-    // user.save().then(() => {
-    //    return user.generateAuthToken();
-    // }).then((token) => {
-    //     res.header('x-auth' , token).send(user);
-    // }).catch((err) => {
-    //     res.status(400).send(err);
-    // });
-    // const token = jwt.sign({user : user} , 'my_secret_key' , (err , token)=> {
-    //     res.json({
-    //         token : token
-    //     });
-    // });
 });
 
 //middleware function to verify token
@@ -81,7 +85,7 @@ function verifyToken(req , res , next){
     next();
 }
 
-// router.post('/posts', verifyToken , (req , res , next) => {
+// userRouter.post('/posts', verifyToken , (req , res , next) => {
 //     jwt.verify(req.token , 'my_secret_key' , (err , authData)=>{
 //         if(err){
 //             res.sendStatus(403);
@@ -94,4 +98,4 @@ function verifyToken(req , res , next){
 //     });
 // });
 
-module.exports = router;
+module.exports = userRouter;
