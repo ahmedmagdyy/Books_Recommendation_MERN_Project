@@ -104,7 +104,7 @@ import AdminPanelHOC from '../../HOC/AdminPanelHoc';
                             this.state.categoryList.map(item=>{
                                return( <option>{item}</option>)
                             })
-                            }
+                        }
                     </Input>
                     </FormGroup>
                     <FormGroup>
@@ -114,7 +114,7 @@ import AdminPanelHOC from '../../HOC/AdminPanelHoc';
                             this.state.authorList.map(item=>{
                                return( <option>{item}</option>)
                             })
-                            }
+                        }
                     </Input>
                     </FormGroup>
                     <FormGroup>

@@ -5,7 +5,6 @@ import TableComp from './TableComp';
 import AddItemComp from './AddItemComp';
 import {CategoryContext} from '../contexts/CategoryContext';
 
-
 const books=[{
     _id:"1",
     photo: "photo A",
@@ -57,8 +56,6 @@ class AdminPanel extends Component {
         newList = this.state.authors.filter( i => i._id !== id );
         this.setState({authors: newList});
     }
-
-    
   }
   editItemList=(editedItem,type)=>{
     console.log("list EDITED");
@@ -87,7 +84,6 @@ class AdminPanel extends Component {
           });
         this.setState({authors: newList});
     }
-    
   }
    loadCat=()=>{
     fetch('http://localhost:5000/cat', {
