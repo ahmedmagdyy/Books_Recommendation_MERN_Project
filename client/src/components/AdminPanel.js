@@ -10,6 +10,7 @@ import jwt_decode from "jwt-decode";
 import {setCurrentUser,emptyCurrentUser} from '../userInfo';
 import { navigate } from "@reach/router"
 import { decode } from 'punycode';
+
 const base64Flag = 'data:image/jpeg;base64,';
 class AdminPanel extends Component {
   state = {
@@ -92,7 +93,6 @@ class AdminPanel extends Component {
           });
         this.setState({authors: newList});
     }
-    
   }
    loadCat=()=>{
     fetch('http://localhost:5000/cat', {
