@@ -44,7 +44,7 @@ export default class Home extends React.Component {
   }
   
    loadBook=()=>{
-    fetch('http://localhost:5000/books/pop', {
+    fetch('http://localhost:5000/books/pop/all', {
       method: 'GET'
     })
     .then((res) => res.json())

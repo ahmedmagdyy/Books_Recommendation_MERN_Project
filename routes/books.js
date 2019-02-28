@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose')
 const bookRouter = express.Router();
 const Book = require('../models/book');
 const bodyParser = require('body-parser');
@@ -20,14 +21,22 @@ const upload = multer({
 //retrieving books
 bookRouter.get('/', (req , res , next) => {
     Book.find().then(books =>{
-        res.json([...books]);
+        res.json(books);
+    }).catch(err => {
+        res.json(err);
+    }); 
+});
+
+bookRouter.get('/:id', (req , res , next) => {
+    Book.findOne({ _id: req.params.id }).then(books =>{
+        res.json(books);
     }).catch(err => {
         res.json(err);
     }); 
 });
 
 
-bookRouter.get('/pop', (req , res , next) => {
+bookRouter.get('/pop/all', (req , res , next) => {
     Book.find({},'name').limit(3).then(books =>{
         res.json(books);
     }).catch(err => {
@@ -52,7 +61,6 @@ bookRouter.post('/', upload.single('photo'), (req , res , next) => {
         console.log("SAVED OBJECT")
         // console.log(bookData.populate('author_id').
         // populate('category_id').execPopulate());
-        
         if (!err){
             bookData.populate('author_id').populate('category_id').execPopulate().then(()=>{
                 console.log(bookData)

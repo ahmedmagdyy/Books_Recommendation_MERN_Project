@@ -14,7 +14,7 @@ class Popular extends Component{
         }
         else rows = rows.map(item=>{item.data=item.name; return item;});
         return(
-            <div >
+            <div>
                 <Card  body>
                     <CardTitle>{this.props.title}</CardTitle>
                     <CardText>
