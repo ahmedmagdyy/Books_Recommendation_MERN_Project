@@ -1,96 +1,62 @@
 import React from 'react';
 import { Table } from 'reactstrap';
-// import { FaEdit ,FaTrash } from 'react-icons/fa';
-// import { Button } from 'reactstrap';
-// import AddItemComp from './AddItemComp';
+
 export default class BookTable extends React.Component {
-  state = {
-
-
-  }
-//   getItem = (path)=>{
-//     console.log(path.split("/")[1]);
-//     fetch('http://localhost:5000/'+path, {
-//       method: 'GET'
-//     }).then((response) => response.json())
-//     .then((responseJson) => {
-//       console.log(responseJson);
-//       this.props.getItem(path.split("/")[1],this.props.tab);
-//     }).catch((error) =>{
-//     console.log(error);
-//     });
-//   }
+  // getItem = ()=>{
+  //   fetch('http://localhost:5000/user', {
+  //     method: 'GET'
+  //   }).then((response) => response.json())
+  //   .then((responseJson) => {
+  //     console.log(responseJson);
+  //     this.props.getItem(this.props.tab);
+  //   }).catch((error) =>{
+  //   console.log(error);
+  //   });
+  // }
   render() {
     let i=0;
     let rows =this.props.rows ;
+    console.log(rows);  
     return (
       <Table>
         <thead>
-          <tr>
-            <th>Cover</th>
+        {          
+          <tr >
+            {/* <th scope="row">{++i}</th> */}
             {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
-              })
-            }
-            <th>Name</th>
-            {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
-              })
-            }
-            <th>Author</th>
-            {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
-              })
-            }
-            <th>Avg Rate</th>
-            {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
-              })
-            }
-            <th>Rating</th>
-            {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
-              })
-            }
-            <th>Shelve</th>
-            {
-              this.props.cols.map ((key,index)=>{
-                return (<th key={index}>{key}</th>)
+              this.props.cols.map ((item,index)=>{                                 
+                  return (<td key={index}>{item}</td>)
               })
             }
           </tr>
+          }
         </thead>
         <tbody>
-          {          
+          {     
             rows.map((row)=>{
-              return(<tr key={row._id}>
-                        <th scope="row">{++i}</th>
-                        {
-                          this.props.cols.map ((key,index)=>{
-                              if(key==="photo") 
-                                return (<td key={index}><img style={{width:60,height:60}} src={row[key]}></img></td>)
-                              else if (key==="name")
-                                return (<td key={index}><a href={row[key]}></a></td>)    
-                              else if (key==="author")
-                                return (<td key={index}><a href={row[key]}></a></td>)                                    
-                              return (<td key={index}>{row[key]}</td>)
-                          })
-                        }
-                        <td>
-                          avg_rate component
-                        </td>
-                        <td>
-                          rate component
-                        </td>
-                        <td>
-                          shelve component
-                        </td>
-                    </tr>);
+              const author_id = (row["book_id"])?row["book_id"].author_id:null;
+              console.log("AUTHOR IDIDDIDIDIDIDI")
+              console.log(author_id);
+              return(
+              <tr key={row._id}>
+  
+                  {/* <th scope="row">{++i}</th> */}
+                  {
+                    this.props.cols.map ((key,index)=>{
+                      if(key === "photo")
+                        return(<td key={index}><img style={{width:60,height:60}} src={row[key]}></img></td>)
+                      else if (key === "name" && row["book_id"])
+                        return(<td key={index}>{row["book_id"].name}</td>)  
+                      else if (key === "author" && author_id)
+                        return(<td key={index}>{author_id[0].first_name+" "+author_id[0].last_name}</td>)
+                      else if (key === "avg_rate" && row["book_id"])
+                        return(<td key={index}>{row["book_id"].rate}</td>)
+                      else if (key === "rating" && row["book_id"])
+                        return(<td key={index}>{row["book_id"].user_rating}</td>)
+                      return(<td key={index}>{row[key]}</td>)      
+                    })
+                  }
+              </tr>);
             })
           }
         </tbody>

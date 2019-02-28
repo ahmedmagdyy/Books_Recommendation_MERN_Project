@@ -3,6 +3,7 @@ import { Table } from 'reactstrap';
 import { FaEdit ,FaTrash } from 'react-icons/fa';
 import { Button } from 'reactstrap';
 import AddItemComp from './AddItemComp';
+
 export default class TableComp extends React.Component {
   state = {
 
@@ -54,7 +55,7 @@ export default class TableComp extends React.Component {
                         {
                           this.props.cols.map ((key,index)=>{
                               if(key==="photo") 
-                                      return (<td key={index}><img style={{width:60,height:60}} src={row[key]}></img></td>)
+                                return (<td key={index}><img style={{width:60,height:60}} src={row[key]}></img></td>)
                               else if (key==="author_name"&&row["author_id"][0])
                                 return (<td key={index}>{row["author_id"][0].first_name+" "+row["author_id"][0].last_name}</td>)    
                               else if (key==="category_name"&&row["category_id"][0])
