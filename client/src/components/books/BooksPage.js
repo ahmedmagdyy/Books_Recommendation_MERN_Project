@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CategoryBooks from "./Info";
 import Pagination from "../Pagination";
-
 export default class BooksPage extends Component {
   state = { currentBooks: [], categoryBooks: [] };
 
@@ -48,7 +47,7 @@ export default class BooksPage extends Component {
           <div className="d-flex flex-row py-4 align-items-center">
             <Pagination
               totalRecords={totalBooks}
-              pageLimit={4}
+              pageLimit={5}
               pageNeighbours={1}
               onPageChanged={this.onPageChanged}
             />
