@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { Link, Router } from "@reach/router";
-
-
 import UserPage from './components/UserPage';
-
+import Home from './components/Home'
 import AdminPanel from "./components/AdminPanel";
-import "./App.css";
 import BooksPage from "./components/books/BooksPage";
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <AdminPanel path="/admin"></AdminPanel>
-        <UserPage path="/user"></UserPage>
+        <Home path="/"/>
+        <AdminPanel path="/admin"/>
+        <UserPage path="/user" />
         <BooksPage path="/books" />
       </Router>
     );

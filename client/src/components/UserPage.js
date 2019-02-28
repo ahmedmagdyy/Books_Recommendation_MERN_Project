@@ -6,6 +6,7 @@ import TableComp from './TableComp';
 import {CategoryContext} from '../contexts/CategoryContext';
 // import {Tab , NavItem ,TabContainer,Container,Item, Nav ,Sonnet, Pane, Link,Content,NavLink , classnames , Row , Col}  from 'react-bootstrap/Tab'
 import {Tab,Tabs,Nav,Col,Row} from 'react-bootstrap'
+import {redirectTo,navigate} from "@reach/router"
 const books=[{
     _id:"1",
     photo : "photo A",
@@ -70,6 +71,7 @@ class UserPage extends Component {
 //   }
    ////////
   componentWillMount(){
+    
     //   this.loadBook();
 //     this.loadCat();
 //     this.loadAuth();
@@ -82,6 +84,16 @@ class UserPage extends Component {
     }
   }
   render() {
+    const token = localStorage.getItem("jwttoken");
+    console.log(token)
+      if(token!== 'undefined'&&token!== null){
+        
+      }
+      else {
+        console.log("rediredt to /")
+      window.location.href = "/";//navigate("/")
+      return null;
+      }
     return (
     //   <CategoryContext.Provider  value={
         // {

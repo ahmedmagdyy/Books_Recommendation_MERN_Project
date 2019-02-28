@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
+import { TabContent, TabPane,Button, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import TableComp from './TableComp';
 import AddItemComp from './AddItemComp';
@@ -8,7 +8,7 @@ import FormLogin from './forms/FormLogin';
 import {currentUser} from '../userInfo';
 import jwt_decode from "jwt-decode";
 import {setCurrentUser,emptyCurrentUser} from '../userInfo';
-import { navigate } from "@reach/router"
+import { redirectTo,navigate } from "@reach/router"
 import { decode } from 'punycode';
 
 const base64Flag = 'data:image/jpeg;base64,';
@@ -148,7 +148,7 @@ class AdminPanel extends Component {
   componentWillMount(){
     const token = localStorage.getItem("jwttoken");
     console.log(token);
-    if(token){
+    if(token!== 'undefined'&&token!== null){
       const decoded = jwt_decode(token);
       setCurrentUser(decoded,true);
       console.log(decoded);
@@ -183,7 +183,7 @@ class AdminPanel extends Component {
           editItemList:this.editItemList
         }
           } >
-        <button onClick={this.signOut}>Log Out</button>
+        <Button onClick={this.signOut}>Log Out</Button>
         <Nav tabs>
           <NavItem>
             <NavLink

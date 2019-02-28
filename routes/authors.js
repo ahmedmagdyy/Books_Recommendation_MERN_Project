@@ -45,6 +45,14 @@ authorRouter.get('/', (req , res , next) => {
     }); 
 });
 
+authorRouter.get('/pop', (req , res , next) => {
+    Author.find({},'first_name last_name').limit(3).then(authors =>{
+        res.json(authors);
+    }).catch(err => {
+        res.json('error in retrieving authors');
+    }); 
+});
+
 //editing author
 authorRouter.put('/', upload.single('photo'), (req , res , next) => {
     console.log(req.body);

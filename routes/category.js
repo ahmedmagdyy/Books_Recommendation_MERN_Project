@@ -39,6 +39,14 @@ categoryRouter.get('/',(req,res)=>{
     
 });
 
+categoryRouter.get('/pop', (req , res , next) => {
+    categoryModel.find({},'name').limit(3).then(cats =>{
+        res.json(cats);
+    }).catch(err => {
+        res.json('error in retrieving cats');
+    }); 
+});
+
 categoryRouter.delete('/:id',(req,res)=>{
     categoryModel.deleteOne({"_id":req.params.id},(err, data) => {
         if (!err)

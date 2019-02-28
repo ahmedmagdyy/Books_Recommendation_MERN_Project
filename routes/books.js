@@ -26,6 +26,14 @@ bookRouter.get('/', (req , res , next) => {
     }); 
 });
 
+
+bookRouter.get('/pop', (req , res , next) => {
+    Book.find({},'name').limit(3).then(books =>{
+        res.json(books);
+    }).catch(err => {
+        res.json('error in retrieving books');
+    }); 
+});
 //adding new book
 bookRouter.post('/', upload.single('photo'), (req , res , next) => {
     console.log(req.body);
