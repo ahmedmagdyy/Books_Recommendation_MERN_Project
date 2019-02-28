@@ -33,6 +33,8 @@ export default class TableComp extends React.Component {
   render() {
     let i = 0;
     let rows = this.props.rows;
+    console.log("ROWS");
+    console.log(rows);
     return (
       <Table>
         <thead>
@@ -69,52 +71,6 @@ export default class TableComp extends React.Component {
                       </tr>);
             })
           }
-          {rows.map(row => {
-            return (
-              <tr key={row._id}>
-                <th scope="row"> {++i}</th>
-                {this.props.cols.map((key, index) => {
-                  if (key === "photo")
-                    return (
-                      <td key={index}>
-                        <img style={{ width: 60, height: 60 }} src={row[key]} />
-                      </td>
-                    );
-                  else if (key === "author_name" && row["author_id"][0])
-                    return (
-                      <td key={index}>
-                        {row["author_id"][0].first_name +
-                          " " +
-                          row["author_id"][0].last_name}
-                      </td>
-                    );
-                  else if (key === "category_name" && row["category_id"][0])
-                    return <td key={index}>{row["category_id"][0].name}</td>;
-                  else if (key === "birth_date" && row["birth_date"])
-                    return <td key={index}>{this.formatDate(row[key])}</td>;
-                  return <td key={index}>{row[key]}</td>;
-                })}
-                <td>
-                  <AddItemComp
-                    id={row._id}
-                    operation="Edit"
-                    submitBt={"Edit " + this.props.tab}
-                    addCat={this.addItemList}
-                    itemType={this.props.itemType}
-                    title={"Edit " + this.props.tab}
-                  />
-                  <Button
-                    className="float-right"
-                    onClick={() =>
-                      this.deleteItem(this.props.itemType + "/" + row._id)
-                    }
-                  >
-                    <FaTrash />
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
         </tbody>
       </Table>
     );

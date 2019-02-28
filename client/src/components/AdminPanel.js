@@ -100,6 +100,8 @@ class AdminPanel extends Component {
     method: 'GET'
   }).then((response) => response.json())
   .then((responseJson) => {
+    console.log("All category")
+    console.log(responseJson)
     this.setState(
       {categories : responseJson});
   }).catch((error) =>{
