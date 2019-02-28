@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Media, Container } from "reactstrap";
 import Foo from "./rating";
 import Dropdownlist from "./dropdown";
+
 class Book_ID extends Component {
   constructor(props) {
     super();
@@ -13,7 +14,6 @@ class Book_ID extends Component {
         category: "Suspense & Thriller",
         description:
           "Robert Langdon, Harvard professor of symbology and religious iconology, arrives at the ultramodern Guggenheim Museum Bilbao to attend a major announcement—the unveiling of a discovery that will change the face of science forever.",
-        rating: 4,
       },
     };
   }
