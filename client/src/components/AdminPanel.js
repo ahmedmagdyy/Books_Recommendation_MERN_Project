@@ -12,6 +12,7 @@ import { redirectTo,navigate } from "@reach/router"
 import { decode } from 'punycode';
 
 const base64Flag = 'data:image/jpeg;base64,';
+
 class AdminPanel extends Component {
   state = {
       activeTab: '1',
@@ -21,7 +22,8 @@ class AdminPanel extends Component {
       bookCols : ["photo","name","author_name","category_name"],
       authors : [],
       authorCols : ["photo","first_name","last_name","birth_date"],
-    };
+  };
+
   addItemList=(newItem,type)=>{
     if(newItem.photo){
       newItem.photo = base64Flag + this.arrayBufferToBase64(newItem.photo.data.data)
@@ -38,7 +40,6 @@ class AdminPanel extends Component {
       default:
         this.setState({authors: [...this.state.authors,newItem]});
     }
-    
   }
   deleteItemList=(id,type)=>{
     console.log(id+"Delete List");
@@ -94,17 +95,17 @@ class AdminPanel extends Component {
         this.setState({authors: newList});
     }
   }
-   loadCat=()=>{
-    fetch('http://localhost:5000/cat', {
-      method: 'GET'
-    }).then((response) => response.json())
-    .then((responseJson) => {
-      this.setState(
-        {categories : responseJson});
-    }).catch((error) =>{
-     console.log(error);
-    });
-   }
+  loadCat=()=>{
+  fetch('http://localhost:5000/cat', {
+    method: 'GET'
+  }).then((response) => response.json())
+  .then((responseJson) => {
+    this.setState(
+      {categories : responseJson});
+  }).catch((error) =>{
+    console.log(error);
+  });
+  }
 
   arrayBufferToBase64(buffer) {
   var binary = '';
@@ -128,23 +129,23 @@ class AdminPanel extends Component {
     })
   }
   
-   loadBook=()=>{
-    fetch('http://localhost:5000/books', {
-      method: 'GET'
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        data.map(item=>{
-          if(item.photo){
-            item.photo = base64Flag + this.arrayBufferToBase64(item.photo.data.data)
-          }
-        })
-        console.log("BOOK STATE NOW")
-        console.log(data);
-        this.setState({books:data})
-
+  loadBook=()=>{
+  fetch('http://localhost:5000/books', {
+    method: 'GET'
+  })
+  .then((res) => res.json())
+  .then((data) => {
+      data.map(item=>{
+        if(item.photo){
+          item.photo = base64Flag + this.arrayBufferToBase64(item.photo.data.data)
+        }
+      })
+      console.log("BOOK STATE NOW")
+      console.log(data);
+      this.setState({books:data})
     })
   }
+
   componentWillMount(){
     const token = localStorage.getItem("jwttoken");
     console.log(token);
@@ -157,11 +158,13 @@ class AdminPanel extends Component {
     this.loadAuth();
     this.loadBook();
   }
+  
   signOut=()=>{
     localStorage.removeItem("jwttoken");
     emptyCurrentUser();
     navigate("/admin")
   }
+  
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -169,6 +172,7 @@ class AdminPanel extends Component {
       });
     }
   }
+  
   render() {
     return (
       (!currentUser.authenticated && !currentUser.userData.isAdmin)?<FormLogin />:
@@ -231,13 +235,13 @@ class AdminPanel extends Component {
             </Col>
             </Row>
           </TabPane>
-        <TabPane tabId="3">
+          <TabPane tabId="3">
             <Row>
               <Col sm="11">
                 <TableComp   deleteItem={this.deleteItemList} itemType="authors" tab="Author" rows={this.state.authors} cols={this.state.authorCols} />
               </Col>
               <Col sm="1">
-             <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Author"  itemType="authors" title="Add Author" />
+            <AddItemComp  operation="Add" buttonColor="danger" buttonLabel="+" submitBt="Add Author"  itemType="authors" title="Add Author" />
             </Col>
             </Row>
           </TabPane>

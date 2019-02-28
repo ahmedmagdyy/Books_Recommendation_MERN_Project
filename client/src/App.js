@@ -6,7 +6,8 @@ import Book_ID from "./components/bookID";
 import AdminPanel from "./components/AdminPanel";
 import BooksPage from "./components/books/BooksPage";
 import "./App.css";
-
+import AuthorBooks from "./components/authorID";
+import CategoriesPage from "./components/AllCategories";
 class App extends Component {
   render() {
     return (
@@ -15,7 +16,10 @@ class App extends Component {
         <AdminPanel path="/admin"/>
         <UserPage path="/user" />
         <BooksPage path="/books" />
-        <Book_ID path="/books/:id" />
+        <BooksPage path="/category/:id" />
+        <Book_ID path="/book/:id" />
+        <AuthorBooks path="/author/:id" />
+        <CategoriesPage path="/allcategory" />
       </Router>
     );
   }

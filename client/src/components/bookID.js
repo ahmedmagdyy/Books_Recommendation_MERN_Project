@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Media, Container } from "reactstrap";
 import Rating from "./rating";
 import Dropdownlist from "./dropdown";
-import rating from "./rating";
 
 const base64Flag = 'data:image/jpeg;base64,';
 
