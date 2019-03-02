@@ -27,10 +27,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         data: Buffer
     },
-    book_status: {
-        type: String,
-        enum: ['Read', 'Want to Read', 'Currnetly Reading']
-    },
     tokens: [{
         access: {
             type: String,
@@ -41,10 +37,14 @@ const userSchema = new mongoose.Schema({
     }],
     books: [{
         book_id:{
-            type: Number
+            type:mongoose.Schema.Types.ObjectId,ref:'Book',autopopulate: true
         },
         user_rating:{
             type: Number
+        },
+        book_status: {
+            type: String,
+            enum: ['Read', 'Want to Read', 'Currnetly Reading']
         }
     }]
 });

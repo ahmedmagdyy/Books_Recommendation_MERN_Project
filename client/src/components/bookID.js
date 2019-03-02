@@ -1,24 +1,54 @@
 import React, { Component } from "react";
 import { Media, Container } from "reactstrap";
-import Foo from "./rating";
+import Rating from "./rating";
 import Dropdownlist from "./dropdown";
 
-class Book_ID extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      book: {
-        bookId: 1,
-        name: "Origin",
-        author: "Dan Brown",
-        category: "Suspense & Thriller",
-        description:
-          "Robert Langdon, Harvard professor of symbology and religious iconology, arrives at the ultramodern Guggenheim Museum Bilbao to attend a major announcement—the unveiling of a discovery that will change the face of science forever.",
-      },
-    };
-  }
+const base64Flag = "data:image/jpeg;base64,";
 
+class Book_ID extends Component {
+  state = {
+    books: {
+      // bookId: 1,
+      // name: "Origin",
+      // author: "Dan Brown",
+      // category: "Suspense & Thriller",
+      // description:
+      //   "Robert Langdon, Harvard professor of symbology and religious iconology, arrives at the ultramodern Guggenheim Museum Bilbao to attend a major announcement—the unveiling of a discovery that will change the face of science forever.",
+      // rating: 4,
+    },
+  };
+  arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach(b => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+  loadBook = async () => {
+    await fetch("http://localhost:5000/books/" + this.props.id, {
+      method: "GET",
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("BOOK STATE NOW");
+        console.log(data);
+        data.photo =
+          base64Flag + this.arrayBufferToBase64(data.photo.data.data);
+        this.setState({ books: data });
+      });
+  };
+  componentWillMount() {
+    this.loadBook().then(() => {
+      console.log(this.state.books.author_id[0].first_name);
+    });
+  }
   render() {
+    const author = this.state.books.author_id;
+    const authorName = author
+      ? author[0].first_name + " " + author[0].last_name
+      : "";
+    const aurthorId = author ? "/authors/" + author[0]._id : "";
+    const photo = this.state.books.photo;
+    const cat = this.state.books.category_id;
     return (
       <div style={{ float: "left" }}>
         <div className="container">
@@ -28,12 +58,13 @@ class Book_ID extends Component {
                 <Media
                   width="100%"
                   width="100%"
-                  src="https://images-na.ssl-images-amazon.com/images/I/51Z0WWdD7CL._SY498_BO1,204,203,200_.jpg"
+                  src={photo}
                   alt="Dan Brown Origin Book"
                 />
                 <Dropdownlist />
                 <div style={{ "margin-left": "45px" }}>
-                  <Foo rating={this.state.rating} />
+                  <Rating />
+                  {/* rating={this.state.rate} */}
                 </div>
               </div>
             </div>
@@ -43,22 +74,24 @@ class Book_ID extends Component {
                 style={{ "margin-top": "25px" }}
               >
                 <Container>
-                  <h2 className="display-3">{this.state.book.name}</h2>
+                  <h2 className="display-3">{this.state.books.name}</h2>
                   <h2 className="display-8">
-                    by{" "}
-                    <a href="/author/:id" style={{ "text-decoration": "none" }}>
-                      {this.state.book.author}
+                    <a
+                      href={"/authors/" + aurthorId ? aurthorId : "12"}
+                      style={{ "text-decoration": "none" }}
+                    >
+                      {authorName}
                     </a>
                   </h2>
                   <h2 className="display-8">
                     <a
-                      href="/category/:id"
+                      href="/category/:id1"
                       style={{ "text-decoration": "none" }}
                     >
-                      {this.state.book.category}
+                      {cat ? cat[0].name : ""}
                     </a>
                   </h2>
-                  <Foo />
+                  <Rating />
                 </Container>
                 <Container
                   style={{
@@ -69,7 +102,7 @@ class Book_ID extends Component {
                   }}
                 >
                   <h4 className="display-8">Description</h4>
-                  <p className="lead"> {this.state.book.description}</p>
+                  <p className="lead"> {this.state.books.description}</p>
                 </Container>
               </div>
             </div>

@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const userRouter = express.Router();
 const User = require('../models/user');
+const Book = require('../models/book');
 const _ = require('lodash');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -17,6 +18,37 @@ userRouter.get('/', (req , res , next) => {
         res.json('errooooor');
     }); 
 });
+
+
+//retrieving user's books
+userRouter.get('/:id/book', (req , res , next) => {
+    User.findById({_id: req.params.id} , "books").populate("books.book_id").exec((err,data)=>{
+        res.json(data);
+
+    }
+)});
+
+//retrieving user's books
+userRouter.get('/book/:id', (req , res , next) => {
+    User.findById({_id: req.params.id} , "books").then(users =>{
+        res.json(users);
+    }).catch(err => {
+        res.json('errooooor');
+    }); 
+});
+
+
+
+//adding books in user schema
+userRouter.get('/ay7aga' , (req ,res , next) => {
+    Book.findOne({name : "book 1"},(err,data)=> {
+        let book = {book_id:data , user_rating:3 , book_status: "read"};
+        User.findOneAndUpdate({
+            email:"a@gmail.com"
+        }, {$push:{books : book}}, (err,data)=>{})
+    })
+    res.send("doneeee");
+})
 
 //adding new user
 userRouter.post('/', (req , res , next) => {
@@ -48,7 +80,7 @@ userRouter.get('/me' , (req , res) => {
 });
 
 userRouter.post('/login' , function(req ,res){
-    console.log("Path/login")
+    // console.log("Path/login")
     console.log(req.body);
     const body = _.pick(req.body,['email', 'password']);
     User.findByCredentials(body.email,body.password).then((user) => {

@@ -5,7 +5,7 @@ export default class Card extends Component {
     return (
       <div className="book-container" style={{ width: "18rem" }}>
         <img
-          src="https://via.placeholder.com/300"
+          src={this.props.img}
           className="card-img-top"
           alt="Book Name"
         />

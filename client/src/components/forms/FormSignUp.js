@@ -5,12 +5,30 @@ import {
   Button,
 } from 'reactstrap';
 import {currentUser} from '../../userInfo';
-import { redirectTo,navigate } from "@reach/router";
+import { navigate } from "@reach/router"
 
-export default class FormLogin extends Component {
+export default class FormSignUp extends Component {
   state = {
-      email:'',
-      password:''
+    first_name: '',
+    last_name: '',
+    user_name: '',
+    email: '',
+    password: '',
+  };
+  handleFirstNameChange = event =>{
+    this.setState(
+      {first_name:event.target.value}
+    )
+  };
+  handleLastNameChange = event =>{
+    this.setState(
+      {last_name:event.target.value}
+    )
+  };
+  handleUserNameChange = event =>{
+    this.setState(
+      {user_name:event.target.value}
+    )
   };
   handleEmailChange = event =>{
     this.setState(
@@ -24,65 +42,75 @@ export default class FormLogin extends Component {
   };
   submitForm(e) {
     e.preventDefault();
-    fetch('http://localhost:5000/users/login', {
+    fetch('http://localhost:5000/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
        body:  JSON.stringify({
         email: this.state.email,
-        password : this.state.password
+        password : this.state.password,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        user_name: this.state.user_name
        })
     }).then((res) =>  res.json())
     .then((data) =>  {
       localStorage.setItem('jwttoken', data.token);
       currentUser.userData = data.user;
       currentUser.authenticated = true;
-      if(currentUser.userData.isAdmin)
-       navigate("/admin")
-      else navigate("/user")
+      navigate("/user")
       console.log(data);
     })
     .catch((error) =>{
-           console.log("Wrong Password")
      console.log(error);
-      alert("Wrong Password")
     });
   };
 
   render() {
-    const {email,password} = this.state;
     return (
       <Container className="App">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <Form className="form" onSubmit={ (e) => this.submitForm(e) }>
           <Col>
+            <FormGroup>
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                name="first_name"
+                value= {this.state.first_name}
+                onChange = {(event)=>{this.handleFirstNameChange(event)}}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>Last Name</Label>
+              <Input
+                type="text"
+                name="last_name"
+                value= {this.state.last_name}
+                onChange = {(event)=>{this.handleLastNameChange(event)}}
+              />
+            </FormGroup>
             <FormGroup>
               <Label>Email</Label>
               <Input
                 type="email"
                 name="email"
-                id="exampleEmail"
-                placeholder="myemail@email.com"
-                value= {email}
+                value= {this.state.email}
                 onChange = {(event)=>{this.handleEmailChange(event)}}
               />
             </FormGroup>
-          </Col>
-          <Col>
             <FormGroup>
-              <Label for="examplePassword">Password</Label>
+              <Label>Password</Label>
               <Input
                 type="password"
                 name="password"
-                id="examplePassword"
-                placeholder="********"
-                value= {password}
+                value= {this.state.password}
                 onChange = {(event)=>{this.handlePasswordChange(event)}}
               />
             </FormGroup>
           </Col>
-          <Button>Login</Button>
+          <Button>SignUp</Button>
         </Form>
       </Container>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Categories from "./category";
-
+import NavbarUser from "./NavbarUser";
 export default class CategoriesPage extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +20,13 @@ export default class CategoriesPage extends Component {
     };
   }
   render() {
-    return <div>{<Categories categories={this.state.categories} />}</div>;
+    return (
+      <div>
+        <div>
+          <NavbarUser />
+        </div>
+        <div>{<Categories categories={this.state.categories} />}</div>
+      </div>
+    );
   }
 }
