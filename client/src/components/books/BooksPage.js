@@ -8,23 +8,6 @@ const base64Flag = 'data:image/jpeg;base64,';
 export default class BooksPage extends Component {
   state = { currentBooks: [], categoryBooks: [] };
 
-  categoryBooks = [
-    { name: "Origin", author: "Dan Brown" },
-    { name: "Inferno", author: "Dan Brown" },
-    { name: "The Lost Symbol", author: "Dan Brown" },
-    { name: "The DaVinci Code", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-    { name: "Angels & Demons", author: "Dan Brown" },
-  ];
-  
   arrayBufferToBase64(buffer) {
     var binary = '';
     var bytes = [].slice.call(new Uint8Array(buffer));
@@ -44,11 +27,11 @@ export default class BooksPage extends Component {
         console.log('Data from DidMount:',data);
         if(data.photo)
           data.photo = base64Flag + this.arrayBufferToBase64(data.photo.data.data);        
-      
+          this.setState({categoryBooks:data})
+          const currentBooks = this.state.categoryBooks.slice(0, 3);
+          this.setState({ currentBooks });
     })
-    this.setState({categoryBooks:this.categoryBooks})
-    const currentBooks = this.state.categoryBooks.slice(0, 3);
-    this.setState({ currentBooks });
+   
     console.log('Stae: ',this.state.currentBooks);
     console.log('Stae: ',this.state.categoryBooks);
   }
@@ -66,8 +49,10 @@ export default class BooksPage extends Component {
     const totalBooks = categoryBooks.length;
     // console.log("TOTAL BOOK"+ totalBooks)
     const currentBooks = this.state.currentBooks;
-    // console.log(currentBooks)
+    console.log("CURRENT BOOKS")
+    console.log(this.state.currentBooks.length);
     return (
+       (!currentBooks=== undefined || currentBooks.length == 0)?null:
       <div style={{ textAlign: "center" }}>
         <CategoryBooks books={currentBooks} />
         <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
