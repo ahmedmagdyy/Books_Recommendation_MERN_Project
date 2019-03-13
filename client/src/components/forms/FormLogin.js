@@ -42,6 +42,7 @@ export default class FormLogin extends Component {
        navigate("/admin")
       else navigate("/user")
       console.log(data);
+      console.log(currentUser);
     })
     .catch((error) =>{
            console.log("Wrong Password")

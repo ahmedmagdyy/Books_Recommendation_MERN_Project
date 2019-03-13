@@ -26,6 +26,9 @@ class Book_ID extends Component {
   loadBook = async () => {
     await fetch("http://localhost:5000/books/" + this.props.id, {
       method: "GET",
+      headers:{
+        'authorization':localStorage.getItem('jwttoken')
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -34,6 +37,8 @@ class Book_ID extends Component {
         data.photo =
           base64Flag + this.arrayBufferToBase64(data.photo.data.data);
         this.setState({ books: data });
+      }).catch(error=>{
+          console.log(error);
       });
   };
   componentWillMount() {
@@ -49,6 +54,7 @@ class Book_ID extends Component {
     const aurthorId = author ? "/authors/" + author[0]._id : "";
     const photo = this.state.books.photo;
     const cat = this.state.books.category_id;
+    const catId = cat ? "/cat/" + cat[0]._id : "";
     return (
       <div style={{ float: "left" }}>
         <div className="container">
@@ -61,7 +67,7 @@ class Book_ID extends Component {
                   src={photo}
                   alt="Dan Brown Origin Book"
                 />
-                <Dropdownlist />
+                <Dropdownlist bookID={this.props.id}/>
                 <div style={{ "margin-left": "45px" }}>
                   <Rating />
                   {/* rating={this.state.rate} */}
@@ -85,7 +91,7 @@ class Book_ID extends Component {
                   </h2>
                   <h2 className="display-8">
                     <a
-                      href="/category/:id1"
+                      href={catId}
                       style={{ "text-decoration": "none" }}
                     >
                       {cat ? cat[0].name : ""}

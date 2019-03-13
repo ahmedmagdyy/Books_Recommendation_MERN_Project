@@ -101,7 +101,23 @@ userRouter.post('/login' , function(req ,res){
       });
 });
 
-//middleware function to verify token
+// //middleware function to verify token
+// function verifyToken(req , res , next){
+//     //get auth header value 
+//     const bearerHeader = req.headers['authorization'];
+//     if(typeof bearerHeader !== 'undefined'){
+//         const bearer = bearerHeader.split(' ');
+//         // get token from array
+//         const bearerToken = bearer[1];
+//         //set the token
+//         req.token = bearerToken;
+//     }else{
+//         res.sendStatus(403);
+//     }
+//     next();
+// }
+
+
 function verifyToken(req , res , next){
     //get auth header value 
     const bearerHeader = req.headers['authorization'];
@@ -110,13 +126,71 @@ function verifyToken(req , res , next){
         // get token from array
         const bearerToken = bearer[1];
         //set the token
+        jwt.verify(bearerToken,'secret_key', (err, decoded) =>{      
+          if (err) {
+            return res.json({ message: 'invalid token' });    
+          } else {
+            // if everything is good, save to request for use in other routes
+            req.decoded = decoded;    
+            next();
+          }
+        });
         req.token = bearerToken;
     }else{
-        res.sendStatus(403);
+        res.json(403);
     }
     next();
-}
+  }
+  
+  userRouter.post('/book/:id' ,verifyToken, function(req ,res){
+        const userId = req.decoded._id;
+        const bookId = req.params.id;
+        const bookStatus = req.body.book_status;
+        Book.findOne({ _id : req.params.id },(err,data)=> {
+            User.findById(userId,(err,user)=>{
+                if(!err){
+                    let userBooks = user.books;
+                    let book = userBooks.filter(book=>book.book_id==bookId);
+                    console.log("BookdID",bookId)
+                    console.log(book)
+                    if(book.length > 0){
+                        User.findOneAndUpdate({
+                            _id:userId, "books.book_id": bookId
+                        }, {$set:{ "books.$.book_status" : bookStatus}}, (err,data)=>{
+                           console.log("SUCCESS");
+                           res.json("SUCCESS");
+                        })
+                    }
+                    else {
+                            let book = {book_id:data , user_rating:0 , book_status: req.body.book_status};
+                            User.findOneAndUpdate({
+                                _id:userId
+                            }, {$push:{books : book}}, (err,data)=>{
+                           res.json("SUCCESS");
 
+                            })
+                        }
+                }
+            })
+            
+        })
+        // res.json(req.body.book_status);
+    });
+
+
+    function verifyToken(req , res , next){
+        //get auth header value 
+        const bearerToken = req.headers['authorization'];
+        jwt.verify(bearerToken,'secret_key', (err, decoded) =>{      
+            if (err) {
+            return res.json({ message: 'invalid token' });    
+            } else {
+            // if everything is good, save to request for use in other routes
+            req.decoded = decoded;    
+            next();
+            }
+        });
+      }
 // userRouter.post('/posts', verifyToken , (req , res , next) => {
 //     jwt.verify(req.token , 'my_secret_key' , (err , authData)=>{
 //         if(err){

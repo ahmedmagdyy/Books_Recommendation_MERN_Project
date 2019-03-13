@@ -16,10 +16,10 @@ class App extends Component {
         <AdminPanel path="/admin" />
         <UserPage path="/user" />
         <BooksPage path="/books" />
-        <BooksPage path="/category/:id" />
-        <Book_ID path="/book/:id" />
-        <AuthorBooks path="/author/:id" />
-        <CategoriesPage path="/categories" />
+        <BooksPage path="/cat/:id" />
+        <Book_ID path="/books/:id" />
+        <AuthorBooks path="/authors/:id" />
+        <CategoriesPage path="/cat" />
       </Router>
     );
   }

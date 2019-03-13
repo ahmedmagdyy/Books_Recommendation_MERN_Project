@@ -19,13 +19,26 @@ export default class CategoriesPage extends Component {
       ],
     };
   }
+  componentWillMount() {
+   fetch('http://localhost:5000/cat/', {
+      method: 'GET'
+    })
+    .then((res) => res.json())
+    .then((data) => {
+          this.setState({ categories:data });
+    })
+   
+  }
   render() {
+    const { categories } = this.state;
     return (
+      (!categories)?null:
       <div>
         <div>
           <NavbarUser />
         </div>
-        <div>{<Categories categories={this.state.categories} />}</div>
+        <div style={{'margin-top' : '100px'}}>
+        {<Categories categories={this.state.categories} />}</div>
       </div>
     );
   }

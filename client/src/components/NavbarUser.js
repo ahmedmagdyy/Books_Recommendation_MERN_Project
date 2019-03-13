@@ -41,7 +41,7 @@ export default class NavbarUser extends React.Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/categories">
+              <Link className="nav-link" to="/cat">
                 Categories
               </Link>
             </li>
@@ -71,6 +71,12 @@ export default class NavbarUser extends React.Component {
               type="submit"
             >
               Search
+            </button>
+            <button
+              className="btnmy-2 btn-outline-success my-sm-0"
+              onClick={()=>{localStorage.removeItem('jwttoken');}}
+            >
+              Log out
             </button>
           </form>
           {/* <span class="inset" style={{ marginRight: '3%' }}>

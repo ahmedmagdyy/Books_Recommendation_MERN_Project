@@ -18,7 +18,8 @@ export default class BooksPage extends Component {
   
   }
   componentWillMount() {
-   fetch('http://localhost:5000/books/', {
+    const cat = (this.props.id)?'category/'+(this.props.id):'';
+   fetch('http://localhost:5000/books/'+cat, {
       method: 'GET'
     })
     .then((res) => res.json())
@@ -47,13 +48,19 @@ export default class BooksPage extends Component {
   render() {
     const { categoryBooks } = this.state;
     const totalBooks = categoryBooks.length;
+    console.log(categoryBooks);
     // console.log("TOTAL BOOK"+ totalBooks)
     const currentBooks = this.state.currentBooks;
     console.log("CURRENT BOOKS")
     console.log(this.state.currentBooks.length);
+    let categoryName='';
+    if(totalBooks > 0 && this.props.id)
+      categoryName = (categoryBooks[0].category_id)?categoryBooks[0].category_id[0].name:'';
+    console.log("CatName",categoryName)
     return (
        (!currentBooks=== undefined || currentBooks.length == 0)?null:
       <div style={{ textAlign: "center" }}>
+        <h1>{categoryName}</h1>
         <CategoryBooks books={currentBooks} />
         <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
           <div className="d-flex flex-row py-4 align-items-center">

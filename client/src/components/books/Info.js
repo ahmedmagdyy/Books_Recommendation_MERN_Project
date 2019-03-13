@@ -36,8 +36,9 @@ export default class CategoryBooks extends Component {
           console.log("Categorybook");
           const author = book.author_id;
           const authorName =(author)?author[0].first_name + " " + author[0].last_name:""
+          const authorId =(author)?author[0]._id:""
           const photo = (book.photo)?base64Flag+this.arrayBufferToBase64(book.photo.data.data):""
-          return <Card bookName={book.name} img={photo} authorName={authorName} />;
+          return <Card bookName={book.name} bookId ={book._id} authorid={authorId} img={photo}  authorName={authorName} />;
         })}
       </div>
     );

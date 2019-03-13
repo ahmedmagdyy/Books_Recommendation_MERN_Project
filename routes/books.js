@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bookRouter = express.Router();
 const Book = require("../models/book");
 const bodyParser = require("body-parser");
+const jwt = require('jsonwebtoken');
 const fs = require("fs");
 const multer = require("multer");
 const validator = require("validator");
@@ -29,13 +30,29 @@ bookRouter.get("/", (req, res, next) => {
     });
 });
 
-bookRouter.get("/:id", (req, res, next) => {
+bookRouter.get("/category/:id", (req, res, next) => {
+  console.log("HELLO FROM CATEOGRY?ID",req.params.id)
+  Book.find({ category_id: req.params.id }).then(books => {
+    console.log("HELLO1")
+    if(books)
+      res.json([...books]);
+    else res.json("ERROR")
+    console.log("HELLO2")
+
+  })
+  .catch(err => {
+    // res.json(err);
+  });
+    
+});
+
+bookRouter.get("/:id",verifyToken, (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then(books => {
-      res.json(books);
+      return res.json(books);
     })
     .catch(err => {
-      res.json(err);
+      return  res.json(err);
     });
 });
 
@@ -135,5 +152,32 @@ bookRouter.delete("/:id", (req, res, next) => {
     else res.json("error in deleting book");
   });
 });
+
+function verifyToken(req , res , next){
+  //get auth header value 
+  // const bearerHeader = req.headers['authorization'];
+  const bearerToken = req.headers['authorization'];
+
+  // if(typeof bearerHeader !== 'undefined'){
+  //     const bearer = bearerHeader.split(' ');
+  //     // get token from array
+  //     const bearerToken = bearer[1];
+  //     //set the token
+      jwt.verify(bearerToken,'secret_key', (err, decoded) =>{      
+        if (err) {
+          return res.json({ message: 'invalid token' });    
+        } else {
+          // if everything is good, save to request for use in other routes
+          req.decoded = decoded;    
+          next();
+        }
+      });
+      // req.token = bearerToken;
+  // }else{
+  //   return res.json();
+  //     // return res.json(403);
+  // }
+  // next();
+}
 
 module.exports = bookRouter;

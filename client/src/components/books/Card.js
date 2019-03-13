@@ -10,9 +10,9 @@ export default class Card extends Component {
           alt="Book Name"
         />
         <div className="card-body">
-          <a href="">{this.props.bookName}</a>
+          <a href={"/books/"+this.props.bookId}>{this.props.bookName}</a>
           <br />
-          <a href="">By {this.props.authorName}</a>
+          <a href={"/authors/"+this.props.authorid}>By {this.props.authorName}</a>
         </div>
       </div>
     );
